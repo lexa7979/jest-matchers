@@ -20,10 +20,10 @@
  * SOFTWARE.
  */
 
-import fs from "fs";
-import path from "path";
+const fs = require( "fs" );
+const path = require( "path" );
 
-import prettier from "prettier";
+const prettier = require( "prettier" );
 
 /**
  * Ensures that the given callback crashs.
@@ -352,7 +352,7 @@ function toAsyncMatchNamedSnapshot( content, filename, template = null ) {	// es
 	} );
 }
 
-export default {
+module.exports = {
 	// eslint-disable-next-line require-jsdoc
 	toThrowWithSupressedOutput( callback ) {
 		return toThrowWithSupressedOutput.call( this, callback );

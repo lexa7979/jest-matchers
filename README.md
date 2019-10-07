@@ -120,13 +120,15 @@ describe( "Component Logo", () => {
   <head></head>
   <body style="display: flex; flex-flow: column nowrap; justify-content: center; align-items: center; height: 100%;">
     <h2>Component Logo when rendering with minimal properties - delivers expected result (-> check snapshot, too)</h2>
+    <!-- Content from unit test: -->
     <div class="empty-svg"></div>
     <br /><br />&lt;Logo text="" /&gt;
+    <!-- End of included content -->
   </body>
 </html>
 ```
 
-## `toAsyncMatchNamedSnapshot()`
+## `toAsyncMatchNamedSnapshot()` (asynchron)
 
 ``` js
 return expect( content ).toAsyncMatchNamedSnapshot( filename );
@@ -148,7 +150,7 @@ return expect( content ).toAsyncMatchNamedSnapshot( filename );
 * **Parameter `filename`**:
   Name of the snapshot-file, e.g. "Logo", "Logo.snap" or "/home/user/project/Logo.snap"
 
-## `toAsyncMatchNamedHTMLSnapshot()`
+## `toAsyncMatchNamedHTMLSnapshot()` (asynchron)
 
 ``` js
 return expect( content ).toAsyncMatchNamedHTMLSnapshot( filename );
