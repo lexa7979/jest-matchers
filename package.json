@@ -1,0 +1,34 @@
+{
+	"name": "@lexa79/jest-matchers",
+	"version": "1.0.0",
+	"description": "Collection of personal additions to Jest for unit testing React applications",
+	"main": "index.js",
+	"scripts": {
+		"lint": "eslint **/*.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/lexa7979/jest-matchers.git"
+	},
+	"keywords": [
+		"Unit",
+		"testing",
+		"TDD",
+		"Jest",
+		"React"
+	],
+	"author": "alexander.urban@cygni.se",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/lexa7979/jest-matchers/issues"
+	},
+	"homepage": "https://github.com/lexa7979/jest-matchers#readme",
+	"devDependencies": {
+		"@lexa79/eslint-config": "^1.0.0",
+		"eslint": "^6.5.1",
+		"eslint-plugin-jest": "^22.17.0"
+	},
+	"dependencies": {
+		"prettier": "^1.18.2"
+	}
+}
