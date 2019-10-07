@@ -4,7 +4,8 @@
 	"description": "Collection of personal additions to Jest for unit testing React applications",
 	"main": "index.js",
 	"scripts": {
-		"lint": "eslint **/*.js"
+		"lint": "eslint **/*.js",
+		"put": "npm publish --access public"
 	},
 	"repository": {
 		"type": "git",
