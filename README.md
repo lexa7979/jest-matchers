@@ -19,17 +19,19 @@ PS: Most of the time I'm using `jest-spec-reporter` with `react-scripts test --r
 ``` js
 import { shallow } from "enzyme";
 
-describe( "Component Logo", () => {
+describe( "Component Logo -", () => {
 	describe( "when rendering", () => {
 		it( "with minimal properties - delivers expected result  (-> check snapshot, too)", () => {
 			// eslint-disable-next-line quotes
 			const testString = `<Logo text="" />`;
 			const testElement = <Logo text="" />;
-			const wrapper = shallow( testElement );
+			const filename = "Form-textarea-set";
 
-			const html = `${wrapper.html()}<br/><br/>${testString.replace( "<", "&lt;" ).replace( ">", "&gt;" )}`;
+			const component = shallow( testElement );
+			expect( component.exists() ).toBe( true );
 
-			return expect( html ).toAsyncMatchNamedHTMLSnapshot( "Logo" );
+			const html = `${component.html()}<br/><br/>${testString.replace( "<", "&lt;" ).replace( ">", "&gt;" )}`;
+			return expect( html ).toAsyncMatchNamedHTMLSnapshot( filename );
 		} );
 	} );
 } );
@@ -100,7 +102,7 @@ return expect( content ).toAsyncMatchNamedHTMLSnapshot( filename );
 ## Examples
 
 ``` js
-describe( "Component Logo", () => {
+describe( "Component Logo -", () => {
 	describe( "when rendering", () => {
 		it( "with no properties - FAILS", () => {
 			const div = document.createElement( "div" );
