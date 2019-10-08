@@ -12,83 +12,6 @@ expect.extend( MyMatchers );
 
 PS: Most of the time I'm using `jest-spec-reporter` with `react-scripts test --reporters=jest-spec-reporter`
 
-# Planned crashing
-
-## Examples
-
-``` js
-describe( "Component Logo", () => {
-	describe( "when rendering", () => {
-		it( "with no properties - FAILS", () => {
-			const div = document.createElement( "div" );
-			expect( () => {
-				ReactDOM.render( <Logo />, div );
-			} ).toSucceedWithMessages();
-			ReactDOM.unmountComponentAtNode( div );
-		} );
-
-		it( "with minimal properties - succeeds", () => {
-			const div = document.createElement( "div" );
-			expect( () => {
-				ReactDOM.render( <Logo text="" />, div );
-			} ).toSucceedWithoutMessages();
-			ReactDOM.unmountComponentAtNode( div );
-		} );
-	} );
-} );
-```
-
-## `toThrowWithSuppressedOutput()`
-
-``` js
-expect( callback ).toThrowWithSuppressedOutput();
-```
-
-* **Test:**
-  Ensures that the given callback crashs.
-  Any output produced with console.error() is suppressed.
-
-* **Negation behaves like a "toSucceedWithSuppressedOutput":**
-  Ensures that the given callback doesn't crash.
-  Any output produced with console.error() is suppressed.
-
-* **Parameter `callback`:**
-  Callback function which shall be checked
-
-## `toSucceedWithMessages()`
-
-``` js
-expect( callback ).toSucceedWithMessages();
-```
-
-* **Test:**
-  Ensures that the given callback doesn't crash
-  and that in the same time some output is produced with console.error().
-
-* **Negation:**
-  Ensures that the callback crashs or
-  at least doesn't generate any output with console.error().
-
-* **Parameter `callback`:**
-  Callback function which shall be checked
-
-## `toSucceedWithoutMessages()`
-
-``` js
-expect( callback ).toSucceedWithoutMessages();
-```
-
-* **Test:** 
-  Ensures that the given callback doesn't crash
-  and doesn't produce any output with console.error().
-
-* **Negation:**
-  Ensures that the callback crashs or
-  at least produces some output with console.error().
-
-* **Parameter `callback`:**
-  Callback function which shall be checked
-
 # Enhanced snapshots
 
 ## Example
@@ -171,3 +94,80 @@ return expect( content ).toAsyncMatchNamedHTMLSnapshot( filename );
 
 * **Parameter `filename`**:
   Name of the snapshot-file, e.g. "Logo", "Logo.html" or "/home/user/project/Logo.html"
+
+# Planned crashing
+
+## Examples
+
+``` js
+describe( "Component Logo", () => {
+	describe( "when rendering", () => {
+		it( "with no properties - FAILS", () => {
+			const div = document.createElement( "div" );
+			expect( () => {
+				ReactDOM.render( <Logo />, div );
+			} ).toSucceedWithMessages();
+			ReactDOM.unmountComponentAtNode( div );
+		} );
+
+		it( "with minimal properties - succeeds", () => {
+			const div = document.createElement( "div" );
+			expect( () => {
+				ReactDOM.render( <Logo text="" />, div );
+			} ).toSucceedWithoutMessages();
+			ReactDOM.unmountComponentAtNode( div );
+		} );
+	} );
+} );
+```
+
+## `toThrowWithSuppressedOutput()`
+
+``` js
+expect( callback ).toThrowWithSuppressedOutput();
+```
+
+* **Test:**
+  Ensures that the given callback crashs.
+  Any output produced with console.error() is suppressed.
+
+* **Negation behaves like a "toSucceedWithSuppressedOutput":**
+  Ensures that the given callback doesn't crash.
+  Any output produced with console.error() is suppressed.
+
+* **Parameter `callback`:**
+  Callback function which shall be checked
+
+## `toSucceedWithMessages()`
+
+``` js
+expect( callback ).toSucceedWithMessages();
+```
+
+* **Test:**
+  Ensures that the given callback doesn't crash
+  and that in the same time some output is produced with console.error().
+
+* **Negation:**
+  Ensures that the callback crashs or
+  at least doesn't generate any output with console.error().
+
+* **Parameter `callback`:**
+  Callback function which shall be checked
+
+## `toSucceedWithoutMessages()`
+
+``` js
+expect( callback ).toSucceedWithoutMessages();
+```
+
+* **Test:** 
+  Ensures that the given callback doesn't crash
+  and doesn't produce any output with console.error().
+
+* **Negation:**
+  Ensures that the callback crashs or
+  at least produces some output with console.error().
+
+* **Parameter `callback`:**
+  Callback function which shall be checked

@@ -12,10 +12,10 @@
 		"url": "git+https://github.com/lexa7979/jest-matchers.git"
 	},
 	"keywords": [
-		"Unit",
-		"testing",
+		"Unit testing",
 		"TDD",
 		"Jest",
+		"Snapshots",
 		"React"
 	],
 	"author": "alexander.urban@cygni.se",
@@ -30,6 +30,6 @@
 		"eslint-plugin-jest": "^22.17.0"
 	},
 	"dependencies": {
-		"prettier": "^1.18.2"
+		"diffable-html": "^4.0.0"
 	}
 }

@@ -23,7 +23,7 @@
 const fs = require( "fs" );
 const path = require( "path" );
 
-const prettier = require( "prettier" );
+const toDiffableHtml = require( "diffable-html" );
 
 /**
  * Ensures that the given callback crashs.
@@ -178,17 +178,15 @@ function toSucceedWithoutMessages( callback ) {
  */
 function applyTemplate( content, template ) {
 	if ( template === "html" ) {
-		return prettier.format(
-			"<!DOCTYPE html>\n<html style=\"height: 100%;\"><head></head>"
+		return toDiffableHtml( "<!DOCTYPE html>\n"
+			+ "<html style=\"height: 100%;\"><head></head>"
 			+ "<body style=\"display: flex; flex-flow: column nowrap; "
 			+ "justify-content: center; align-items: center; height: 100%;\">"
 			+ `<h2>${this.currentTestName}</h2>\n`
 			+ "<!-- Content from unit test: -->\n"
 			+ `${content}\n`
 			+ "<!-- End of included content -->\n"
-			+ "</body></html>",
-			{ parser: "html", printWidth: 200 }
-		);
+			+ "</body></html>" );
 	}
 
 	return content;
