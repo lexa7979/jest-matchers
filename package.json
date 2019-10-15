@@ -25,9 +25,9 @@
 	},
 	"homepage": "https://github.com/lexa7979/jest-matchers#readme",
 	"devDependencies": {
-		"@lexa79/eslint-config": "^1.0.0",
+		"@lexa79/eslint-config": "^1.0.2",
 		"eslint": "^6.5.1",
-		"eslint-plugin-jest": "^22.17.0"
+		"eslint-plugin-jest": "^22.19.0"
 	},
 	"dependencies": {
 		"diffable-html": "^4.0.0"

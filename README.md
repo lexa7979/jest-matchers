@@ -20,20 +20,20 @@ PS: Most of the time I'm using `jest-spec-reporter` with `react-scripts test --r
 import { shallow } from "enzyme";
 
 describe( "Component Logo -", () => {
-	describe( "when rendering", () => {
-		it( "with minimal properties - delivers expected result  (-> check snapshot, too)", () => {
-			// eslint-disable-next-line quotes
-			const testString = `<Logo text="" />`;
-			const testElement = <Logo text="" />;
-			const filename = "Form-textarea-set";
+  describe( "when rendering", () => {
+    it( "with minimal properties - delivers expected result  (-> check snapshot, too)", () => {
+      // eslint-disable-next-line quotes
+      const testString = `<Logo text="" />`;
+      const testElement = <Logo text="" />;
+      const filename = "Form-textarea-set";
 
-			const component = shallow( testElement );
-			expect( component.exists() ).toBe( true );
+      const component = shallow( testElement );
+      expect( component.exists() ).toBe( true );
 
-			const html = `${component.html()}<br/><br/>${testString.replace( "<", "&lt;" ).replace( ">", "&gt;" )}`;
-			return expect( html ).toAsyncMatchNamedHTMLSnapshot( filename );
-		} );
-	} );
+      const html = `${component.html()}<br/><br/>${testString.replace( "<", "&lt;" ).replace( ">", "&gt;" )}`;
+      return expect( html ).toAsyncMatchNamedHTMLSnapshot( filename );
+    } );
+  } );
 } );
 ```
 
@@ -103,23 +103,23 @@ return expect( content ).toAsyncMatchNamedHTMLSnapshot( filename );
 
 ``` js
 describe( "Component Logo -", () => {
-	describe( "when rendering", () => {
-		it( "with no properties - FAILS", () => {
-			const div = document.createElement( "div" );
-			expect( () => {
-				ReactDOM.render( <Logo />, div );
-			} ).toSucceedWithMessages();
-			ReactDOM.unmountComponentAtNode( div );
-		} );
+  describe( "when rendering", () => {
+    it( "with no properties - FAILS", () => {
+      const div = document.createElement( "div" );
+      expect( () => {
+        ReactDOM.render( <Logo />, div );
+      } ).toSucceedWithMessages();
+      ReactDOM.unmountComponentAtNode( div );
+    } );
 
-		it( "with minimal properties - succeeds", () => {
-			const div = document.createElement( "div" );
-			expect( () => {
-				ReactDOM.render( <Logo text="" />, div );
-			} ).toSucceedWithoutMessages();
-			ReactDOM.unmountComponentAtNode( div );
-		} );
-	} );
+    it( "with minimal properties - succeeds", () => {
+      const div = document.createElement( "div" );
+      expect( () => {
+        ReactDOM.render( <Logo text="" />, div );
+      } ).toSucceedWithoutMessages();
+      ReactDOM.unmountComponentAtNode( div );
+    } );
+  } );
 } );
 ```
 

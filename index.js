@@ -39,7 +39,7 @@ const toDiffableHtml = require( "diffable-html" );
  * @returns	{object}
  *		Description of the test result in the form { message: ..., pass: ... }
  */
-function toThrowWithSupressedOutput( callback ) {
+function toThrowWithSuppressedOutput( callback ) {
 	let hasThrown = false;
 
 	/* eslint-disable no-console */
@@ -352,8 +352,8 @@ function toAsyncMatchNamedSnapshot( content, filename, template = null ) {	// es
 
 module.exports = {
 	// eslint-disable-next-line require-jsdoc
-	toThrowWithSupressedOutput( callback ) {
-		return toThrowWithSupressedOutput.call( this, callback );
+	toThrowWithSuppressedOutput( callback ) {
+		return toThrowWithSuppressedOutput.call( this, callback );
 	},
 	// eslint-disable-next-line require-jsdoc
 	toSucceedWithMessages( callback ) {
