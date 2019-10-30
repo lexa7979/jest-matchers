@@ -25,6 +25,20 @@ const path = require( "path" );
 
 const toDiffableHtml = require( "diffable-html" );
 
+let globalRenderHook = null;
+
+/**
+ * Initialise matchers with valid renderer (e.g. ReactDOMServer)
+ * so that a given React component can be automatically rendered into HTML code.
+ *
+ * @param	{object}	renderer
+ */
+function connectRenderer( renderer ) {
+	if ( renderer != null && typeof renderer === "object" && typeof renderer.renderToString === "function" ) {
+		globalRenderHook = renderer.renderToString;
+	}
+}
+
 /**
  * Ensures that the given callback crashs.
  * Any output produced with console.error() is suppressed.
@@ -170,6 +184,8 @@ function toSucceedWithoutMessages( callback ) {
  *
  * @param	{string}	content
  *		Rendered content, e.g. in HTML format
+ * @param	{null|string}	description
+ *		Additional information regarding the current test
  * @param	{null|string}	template
  *		Type of embedding, e.g. "html"; or
  *		Null if the content shall be returned without changes.
@@ -179,8 +195,11 @@ function toSucceedWithoutMessages( callback ) {
  *
  * @this
  */
-function applyTemplate( content, template ) {
+function applyTemplate( content, description, template ) {
 	if ( template === "html" ) {
+		const fullDescription = typeof description === "string" && description !== ""
+			? `<br/><br/>${description.replace( "<", "&lt;" ).replace( ">", "&gt;" )}\n`
+			: "";
 		return toDiffableHtml( "<!DOCTYPE html>\n"
 			+ "<html style=\"height: 100%;\"><head></head>"
 			+ "<body style=\"display: flex; flex-flow: column nowrap; "
@@ -189,7 +208,7 @@ function applyTemplate( content, template ) {
 			+ "<!--[ Content from unit test: ]-->\n"
 			+ `${content}\n`
 			+ "<!--[ End of included content ]-->\n"
-			+ "</body></html>" );
+			+ `${fullDescription}</body></html>` );
 	}
 
 	return content;
@@ -249,11 +268,16 @@ function diffStrings( oldContent, newContent ) {
  * Negation:
  * Ensures that the given file exists and that its content DOESN'T match the given string
  *
- * @param	{string}	content
- *		Expected content of the snapshot-file
- * @param	{string}	filename
+ * @param	{object}	optionsBag
+ * @param	{string|object}	optionsBag.content
+ *		Expected content of the snapshot-file; or
+ *		React component whose rendered code shall match the snapshot-file
+ * @param	{string}	optionsBag.filename
  *		Path and name of the snapshot-file
- * @param	{null|string}	template
+ * @param	{null|string}	optionsBag.description
+ *		Additional information regarding the current test
+ *		which will be included in the snapshot-file
+ * @param	{null|string}	optionsBag.template
  *		Null if new content shall not be preprocessed; or
  *		"html" if new content shall be wrapped into the body of a new HTML document.
  *
@@ -262,7 +286,10 @@ function diffStrings( oldContent, newContent ) {
  *
  * @this
  */
-function toAsyncMatchNamedSnapshot( content, filename, template = null ) {	// eslint-disable-line max-lines-per-function
+function toAsyncMatchNamedSnapshot( optionsBag ) {	// eslint-disable-line max-lines-per-function
+	const { content, filename, description, template } = optionsBag;
+
+	// eslint-disable-next-line max-statements
 	return new Promise( resolve => {	// eslint-disable-line max-lines-per-function
 		const { snapshotState, testPath } = this;
 		let resolved = false;
@@ -294,7 +321,17 @@ function toAsyncMatchNamedSnapshot( content, filename, template = null ) {	// es
 
 		let fullContent = content;
 		try {
-			fullContent = applyTemplate.call( this, content, template );
+			if ( fullContent != null && typeof fullContent === "object" && typeof globalRenderHook === "function" ) {
+				fullContent = globalRenderHook.call( this, fullContent );
+				if ( typeof fullContent !== "string" || fullContent === "" ) {
+					resolveError( "Failed to render component" );
+					return;
+				}
+			} else if ( typeof fullContent !== "string" || fullContent === "" ) {
+				resolveError( "Invalid type of content" );
+				return;
+			}
+			fullContent = applyTemplate.call( this, fullContent, description, template );
 		} catch ( error ) {
 			resolveError( error );
 			return;
@@ -354,6 +391,8 @@ function toAsyncMatchNamedSnapshot( content, filename, template = null ) {	// es
 }
 
 module.exports = {
+	connectRenderer,
+
 	// eslint-disable-next-line require-jsdoc
 	toThrowWithSuppressedOutput( callback ) {
 		return toThrowWithSuppressedOutput.call( this, callback );
@@ -368,10 +407,10 @@ module.exports = {
 	},
 	// eslint-disable-next-line require-jsdoc
 	toAsyncMatchNamedSnapshot( content, filename ) {
-		return toAsyncMatchNamedSnapshot.call( this, content, filename );
+		return toAsyncMatchNamedSnapshot.call( this, { content, filename } );
 	},
 	// eslint-disable-next-line require-jsdoc
-	toAsyncMatchNamedHTMLSnapshot( content, filename ) {
-		return toAsyncMatchNamedSnapshot.call( this, content, filename, "html" );
+	toAsyncMatchNamedHTMLSnapshot( content, filename, description ) {
+		return toAsyncMatchNamedSnapshot.call( this, { content, filename, description, template: "html" } );
 	},
 };

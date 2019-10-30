@@ -5,9 +5,11 @@ This is a collection of some additional matchers I use for unit testing of React
 To use them with an React app which I started with `create-react-app`, I add the following to `setupTests.js`:
 
 ``` js
+import ReactDOMServer from "react-dom/server";
 import MyMatchers from "@lexa79/jest-matchers";
 
 // Add some useful matchers to Jest:
+MyMatchers.connectRenderer( ReactDOMServer );
 expect.extend( MyMatchers );
 ```
 
@@ -25,36 +27,38 @@ React.useLayoutEffect = React.useEffect;
 ## Example
 
 ``` js
-import ReactDOMServer from "react-dom/server";
-
 describe( "Component Logo -", () => {
   describe( "when rendering", () => {
     it( "with minimal properties - delivers expected result  (-> check snapshot)", () => {
       // eslint-disable-next-line quotes
       const testString = `<Logo text="" />`;
       const testElement = <Logo text="" />;
-      const filename = "Form-textarea-set";
+      const filename = "Logo-minimal";
 
-	  const output = ReactDOMServer.renderToString( testElement );
-      const html = `${output}<br/><br/>${testString.replace( "<", "&lt;" ).replace( ">", "&gt;" )}`;
-      return expect( html ).toAsyncMatchNamedHTMLSnapshot( filename );
+      return expect( testElement ).toAsyncMatchNamedHTMLSnapshot( filename, testString );
     } );
   } );
 } );
 ```
 
-`__snapshots__/Logo.html`:
+`__snapshots__/Logo-minimal.html`:
 
 ``` html
 <!DOCTYPE html>
 <html style="height: 100%;">
-  <head></head>
+  <head>
+  </head>
   <body style="display: flex; flex-flow: column nowrap; justify-content: center; align-items: center; height: 100%;">
-    <h2>Component Logo when rendering with minimal properties - delivers expected result (-> check snapshot, too)</h2>
-    <!-- Content from unit test: -->
-    <div class="empty-svg"></div>
-    <br /><br />&lt;Logo text="" /&gt;
-    <!-- End of included content -->
+    <h2>
+	  Component Logo when rendering with minimal properties - delivers expected result (-> check snapshot, too)
+	</h2>
+    <!--[ Content from unit test: ]-->
+    <div class="empty-svg">
+	</div>
+    <!--[ End of included content ]-->
+    <br>
+	<br>
+	&lt;Logo text="" /&gt;
   </body>
 </html>
 ```
@@ -84,7 +88,7 @@ return expect( content ).toAsyncMatchNamedSnapshot( filename );
 ## `toAsyncMatchNamedHTMLSnapshot()` (asynchron)
 
 ``` js
-return expect( content ).toAsyncMatchNamedHTMLSnapshot( filename );
+return expect( content ).toAsyncMatchNamedHTMLSnapshot( filename, description );
 ```
 
 * **Important:**
@@ -102,6 +106,9 @@ return expect( content ).toAsyncMatchNamedHTMLSnapshot( filename );
 
 * **Parameter `filename`**:
   Name of the snapshot-file, e.g. "Logo", "Logo.html" or "/home/user/project/Logo.html"
+
+* **Parameter `description`** (optional):
+  Additional information which shall be included in the snapshot-file
 
 # Planned crashing
 
