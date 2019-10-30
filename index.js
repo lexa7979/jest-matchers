@@ -52,6 +52,7 @@ function toThrowWithSuppressedOutput( callback ) {
 		hasThrown = true;
 	}
 
+	console.error.mockClear();
 	console.error = originalConsole;
 	/* eslint-enable no-console */
 
@@ -91,6 +92,7 @@ function toSucceedWithMessages( callback ) {
 		hasThrown = true;
 	}
 
+	console.error.mockClear();
 	console.error = originalConsole;
 	/* eslint-enable no-console */
 
@@ -141,6 +143,7 @@ function toSucceedWithoutMessages( callback ) {
 		hasThrown = true;
 	}
 
+	console.error.mockClear();
 	console.error = originalConsole;
 	/* eslint-enable no-console */
 
