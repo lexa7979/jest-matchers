@@ -1,6 +1,6 @@
 {
 	"name": "@lexa79/jest-matchers",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Collection of personal additions to Jest for unit testing React applications",
 	"main": "index.js",
 	"scripts": {
