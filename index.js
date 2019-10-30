@@ -186,9 +186,9 @@ function applyTemplate( content, template ) {
 			+ "<body style=\"display: flex; flex-flow: column nowrap; "
 			+ "justify-content: center; align-items: center; height: 100%;\">"
 			+ `<h2>${this.currentTestName}</h2>\n`
-			+ "<!-- Content from unit test: -->\n"
+			+ "<!--[ Content from unit test: ]-->\n"
 			+ `${content}\n`
-			+ "<!-- End of included content -->\n"
+			+ "<!--[ End of included content ]-->\n"
 			+ "</body></html>" );
 	}
 

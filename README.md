@@ -5,32 +5,38 @@ This is a collection of some additional matchers I use for unit testing of React
 To use them with an React app which I started with `create-react-app`, I add the following to `setupTests.js`:
 
 ``` js
-// Add some useful matchers to Jest:
 import MyMatchers from "@lexa79/jest-matchers";
+
+// Add some useful matchers to Jest:
 expect.extend( MyMatchers );
 ```
 
-PS: Most of the time I'm using `jest-spec-reporter` with `react-scripts test --reporters=jest-spec-reporter`
+If you are working with Material UI, you might also have to add the following to `setupTests.js` ([background](stackoverflow.com/questions/58070996/how-to-fix-the-warning-uselayouteffect-does-nothing-on-the-server)):
+
+``` js
+import React from "react";
+
+// Avoid problems when testing Material UI components:
+React.useLayoutEffect = React.useEffect;
+```
 
 # Enhanced snapshots
 
 ## Example
 
 ``` js
-import { shallow } from "enzyme";
+import ReactDOMServer from "react-dom/server";
 
 describe( "Component Logo -", () => {
   describe( "when rendering", () => {
-    it( "with minimal properties - delivers expected result  (-> check snapshot, too)", () => {
+    it( "with minimal properties - delivers expected result  (-> check snapshot)", () => {
       // eslint-disable-next-line quotes
       const testString = `<Logo text="" />`;
       const testElement = <Logo text="" />;
       const filename = "Form-textarea-set";
 
-      const component = shallow( testElement );
-      expect( component.exists() ).toBe( true );
-
-      const html = `${component.html()}<br/><br/>${testString.replace( "<", "&lt;" ).replace( ">", "&gt;" )}`;
+	  const output = ReactDOMServer.renderToString( testElement );
+      const html = `${output}<br/><br/>${testString.replace( "<", "&lt;" ).replace( ">", "&gt;" )}`;
       return expect( html ).toAsyncMatchNamedHTMLSnapshot( filename );
     } );
   } );
